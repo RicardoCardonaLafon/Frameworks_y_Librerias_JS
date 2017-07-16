@@ -1,3 +1,5 @@
+var dulce_aux_arrastrado = "";
+var dulce_aux_contenedor = "";
 var dulce_arrastrado = "";
 var imagen_arrastrada = "";
 var dulce_contenedor = "";
@@ -150,7 +152,57 @@ $( document ).ready(function() {
         //FIN DEL MANEJO DEL BOTON INICIO Y REINICIAR ----------------------------------------------------
         
         //MANEJO DE LAS IMAGENES ---------------------------
-        
+        $('.dulces').draggable( {
+            containment: '.panel-tablero',
+            cursor: 'move'
+           
+        } );
+        $(".dulces").droppable({
+           accept: ".dulces",
+           drop: function( evento, ui ) {
+               
+                /*$("#21").toggle(2000, function(){
+                    $("#mensaje").show();
+                    $("#mensaje").text("La oveja hace Beeee");
+                }); */
+               
+                dulce_arrastrado = ui.draggable.attr("id");
+                imagen_arrastrada = ui.draggable.attr("src");
+                dulce_contenedor = $(this).attr("id");
+                imagen_contenedor = $(this).attr("src");
+                
+                var coordenadas_A = $(ui.draggable).offset();
+                var coordenadas_C = $(this).offset();
+               
+                var columna_A = dulce_arrastrado[0];
+                var columna_C = dulce_contenedor[0];
+                
+                /*var coordenadas_A_izq = parseInt(coordenadas_A.left);
+                var coordenadas_A_top = parseInt(coordenadas_A.top);
+               
+                var coordenadas_C_izq = parseInt(coordenadas_C.left);
+                var coordenadas_C_top = parseInt(coordenadas_C.top);*/
+               
+                dulce_aux_arrastrado = dulce_arrastrado;
+                dulce_aux_contenedor = dulce_contenedor;
+                
+                
+                if (parseInt(dulce_arrastrado) < parseInt(dulce_contenedor)){
+                    //$('#' + dulce_arrastrado).fadeOut();
+                    //$('#' + dulce_arrastrado).replaceWith($('#' + dulce_aux_contenedor));
+                    $('#' + dulce_arrastrado).detach();
+                    $('<img class="dulces ui-draggable ui-draggable-handle ui-droppable"' + 'id=' + dulce_aux_arrastrado + ' src=' + imagen_contenedor + ' width=82% style="position: relative">').appendTo('.col-' + columna_A + ' .fila_' + dulce_arrastrado);
+                    
+                    $('#' + dulce_contenedor).detach();
+                    $('<img class="dulces ui-draggable ui-draggable-handle ui-droppable"' + 'id=' + dulce_aux_contenedor + ' src=' + imagen_arrastrada + ' width=82% style="position: relative">').appendTo('.col-' + columna_C + ' .fila_' + dulce_contenedor);
+                } else {
+                    //$('#' + dulce_contenedor).fadeOut();
+                    $('#' + dulce_contenedor).replaceWith($('#' + dulce_aux_arrastrado));
+                    $('<img class="dulces ui-draggable ui-draggable-handle ui-droppable"' + 'id=' + dulce_aux_arrastrado + ' src=' + imagen_contenedor + ' width=82% style="position: relative">').appendTo('.col-' + columna_A + ' .fila_' + dulce_arrastrado);
+                }
+                //$('#' + dulce_aux_contenedor).replaceWith($('#' + dulce_aux_arrastrado));
+           }
+        });
         //FIN DE MANEJO DE IMAGENES ------------------------
     });
 //FIN DEL JUEGO ------------------------------------------------------------------------------------------
