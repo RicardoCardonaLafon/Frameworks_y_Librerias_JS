@@ -8,13 +8,22 @@ var left_dulce_arrastrado = 0;
 var top_dulce_arrastrado = 0;
 var left_dulce_contenedor = 0;
 var top_dulce_contenedor = 0;
+
 var indice_array = 0;
-var vector_Celda = new Array(49);
-var vector_Left = new Array(49);
-var vector_Top = new Array(49);
+var vector_NRO_Id = new Array(49);
+var vector_NRO_Dulce = new Array(49);
+var vector_Aux_NRO_Id = new Array(7);
+var vector_Aux_NRO_Dulce = new Array(7);
+
+var COINCIDENCIAS_Id = new Array(49);
+var COINCIDENCIAS_Dulce = new Array(49);
+
+
 var posL_dulce_arrastrado = 0;
 var posT_dulce_arrastrado = 0;
+
 var movimientos = 0;
+var puntos = 0;
 
 var fila_arrastrable = "";
 var orden_arrastrable = 0;
@@ -22,28 +31,97 @@ var fila_contenedor = "";
 var orden_contenedor = 0;
 
 
-//CARGO LOS ARRAYS con la celda, posicion izquierda y posicion top
-/*var cargar_vector = function(){
+//CARGO LOS ARRAYS con ID y NRO dulce
+var cargar_vector = function(){
     
     var indice_array = 0;
     for( var i = 1 ; i <= 7 ; i++){
         for( var j = 1 ; j <= 7 ; j++) {
-            var coordenadas = $('.fila_' + (i) + (j)).offset();
+            var nro_imagen_dulce = $('#' + (i) + (j)).attr("src");
             var i_car = i;
             var j_car = j;
             i_car = i_car.toString();
             j_car = j_car.toString();
-            vector_Celda[indice_array] = i_car + j_car;
-            vector_Left[indice_array] = coordenadas.left;
-            vector_Top[indice_array] = coordenadas.top;
+            
+            vector_NRO_Dulce[indice_array] = nro_imagen_dulce.substr(6,1);
+            vector_NRO_Id[indice_array] = i_car + j_car;
+            
             indice_array = indice_array + 1;
-
-
         }
     }
     
-}*/
+}
+
 //Fin de la carga de los arrays
+
+//VERIFICACION DE ACIERTOS
+var verificar_aciertos = function(){
+    var indice_array = 0;
+    var columna_actual = "1";
+    var fila_actual = "1";
+    
+    
+    //BUSCO COINCIDENCIAS x COLUMNA
+    var indice_array = 0;
+    var indice_aux = 0;
+    var aciertos = 0;
+    var dulce_evaluar = "";
+    
+    for( var j = 0 ; j <= 7  ; j++) {
+        vector_Aux_NRO_Dulce[j] = "";
+        vector_Aux_NRO_Id[j] = "";
+    }
+    
+    for( var i = 0 ; i < 49 ; i++) {
+        if (i = 0) {
+            dulce_evaluar = vector_NRO_Dulce[i];
+            columna_actual = vector_NRO_Id[i].substr(0,1);
+            aciertos = 1;
+            vector_Aux_NRO_Dulce[indice_aux] = vector_NRO_Dulce[i];
+            vector_Aux_NRO_Id[indice_aux] = vector_NRO_Id[i];
+            indice_aux = indice_aux + 1;
+        } else {
+            if (vector_NRO_Id[i].substr(0,1) != columna_actual) {
+                if (aciertos >= 3) {
+                    aciertos = aciertos * 10;
+                    $('#score-text').text(aciertos);
+                    dulce_evaluar = vector_NRO_Dulce[i];
+                    columna_actual = vector_NRO_Id[i].substr(0,1);
+                    aciertos = 1;
+                    
+                    //Paso de Vector auxiliar a vector coincidencias y borro vector auxiliar
+                    indice_aux = 0;
+                    for( var j = 0 ; j <= 7  ; j++) {
+                        if (vector_Aux_NRO_Id[j] != "") {
+                            COINCIDENCIAS_Id[indice_array] = vector_Aux_NRO_Id[indice_aux];
+                            COINCIDENCIAS_Dulce[indice_array] = vector_Aux_NRO_Dulce[indice_aux];    
+                            indice_array = indice_array + 1;    
+                            indice_aux = indice_aux + 1;
+                        }
+                    }
+                    //Borro vector auxiliar
+                    for( var j = 0 ; j <= 7  ; j++) {
+                        vector_Aux_NRO_Dulce[j] = "";
+                        vector_Aux_NRO_Id[j] = "";
+                    }
+                    indice_aux = 0;
+                    //Fin de traspaso y borrado del vector auxiliar
+                    
+                }
+            } else {
+                vector_Aux_NRO_Dulce[indice_aux] = vector_NRO_Dulce[i];
+                vector_Aux_NRO_Id[indice_aux] = vector_NRO_Id[i];
+                aciertos = aciertos + 1;
+                indice_aux = indice_aux + 1;
+            }
+        }    
+    }
+    //FIN DE BUSQUEDA DE COINCIDENCIAS COLUMNA 
+    
+    
+    
+}
+//FIN DE VERIFICACION DE ACIERTOS
 
 $( document ).ready(function() {
 
@@ -77,6 +155,11 @@ $( document ).ready(function() {
             $('<img class="dulces"' + 'id=' + (i+1) + (j+1) + ' src=image/' + numero + '.png'+ ' width=82%>').appendTo('.col-' + (i+1) + ' .fila_' + (i+1) + (j+1));
         }
     }
+    
+//CARGO VECTOR PARA VERIFICAR ACIERTOS
+    cargar_vector();
+//VERIFICO SI HAY ACIERTOS
+    verificar_aciertos();
     
 //CAMBIA COLOR DEL TITULO
     function cambiar_color(){
@@ -157,6 +240,9 @@ $('.filas').mousedown(function(){
                 cursor: 'move'
 
             } );
+            
+            cargar_vector();
+            
             //RELOJ
             function cambiar_reloj(){
                 if (segundos != 0){
