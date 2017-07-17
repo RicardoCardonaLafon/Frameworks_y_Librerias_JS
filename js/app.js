@@ -14,6 +14,7 @@ var vector_Left = new Array(49);
 var vector_Top = new Array(49);
 var posL_dulce_arrastrado = 0;
 var posT_dulce_arrastrado = 0;
+var movimientos = 0;
 
 var fila_arrastrable = "";
 var orden_arrastrable = 0;
@@ -22,7 +23,7 @@ var orden_contenedor = 0;
 
 
 //CARGO LOS ARRAYS con la celda, posicion izquierda y posicion top
-var cargar_vector = function(){
+/*var cargar_vector = function(){
     
     var indice_array = 0;
     for( var i = 1 ; i <= 7 ; i++){
@@ -41,7 +42,7 @@ var cargar_vector = function(){
         }
     }
     
-}
+}*/
 //Fin de la carga de los arrays
 
 $( document ).ready(function() {
@@ -90,8 +91,56 @@ $( document ).ready(function() {
             cambiar_color();
     }, 1000);
 //FIN CAMBIA COLOR DEL TITULO
-    
-    
+$('.filas').mousedown(function(){    
+//MANEJO DE LAS IMAGENES ---------------------------
+    if ($('.btn-reinicio').text() == "Iniciar"){
+        return;
+    }
+    $('.dulces').draggable( {
+        containment: '.panel-tablero',
+        cursor: 'move'
+
+    } );
+    $(".dulces").droppable({
+       accept: ".dulces",
+       drop: function( evento, ui ) {
+
+            dulce_arrastrado = ui.draggable.attr("id");
+            imagen_arrastrada = ui.draggable.attr("src");
+            dulce_contenedor = $(this).attr("id");
+            imagen_contenedor = $(this).attr("src");
+
+            var coordenadas_A = $(ui.draggable).offset();
+            var coordenadas_C = $(this).offset();
+
+            var columna_A = dulce_arrastrado[0];
+            var columna_C = dulce_contenedor[0];
+
+            /*var coordenadas_A_izq = parseInt(coordenadas_A.left);
+            var coordenadas_A_top = parseInt(coordenadas_A.top);
+
+            var coordenadas_C_izq = parseInt(coordenadas_C.left);
+            var coordenadas_C_top = parseInt(coordenadas_C.top);*/
+
+            dulce_aux_arrastrado = dulce_arrastrado;
+            dulce_aux_contenedor = dulce_contenedor;
+
+             $('#' + dulce_arrastrado).detach();
+            $('<img class="dulces ui-draggable ui-draggable-handle ui-droppable"' + 'id=' + dulce_aux_arrastrado + ' src=' + imagen_contenedor + ' width=82%">').appendTo('.col-' + columna_A + ' .fila_' + dulce_arrastrado);
+
+            $('#' + dulce_contenedor).detach();
+            $('<img class="dulces ui-draggable ui-draggable-handle ui-droppable"' + 'id=' + dulce_aux_contenedor + ' src=' + imagen_arrastrada + ' width=82%">').appendTo('.col-' + columna_C + ' .fila_' + dulce_contenedor);
+
+            $('.dulces').draggable({containment: '.panel-tablero', cursor: 'move'});
+            
+            movimientos = movimientos +1;
+            $('#movimientos-text').text(movimientos);
+           
+            
+       }
+    });
+//FIN DE MANEJO DE IMAGENES ------------------------
+});
 //EL JUEGO ---------------------------------------------------------------------------------------------
     $(".btn-reinicio").click(function(){
         //CHEQUEO QUE TEXTO CONTIENE EL BOTON
@@ -103,6 +152,11 @@ $( document ).ready(function() {
             var segundos = 59;
             
             $('.btn-reinicio').text("Reiniciar")
+            $('.dulces').draggable( {
+                containment: '.panel-tablero',
+                cursor: 'move'
+
+            } );
             //RELOJ
             function cambiar_reloj(){
                 if (segundos != 0){
@@ -151,59 +205,7 @@ $( document ).ready(function() {
         }
         //FIN DEL MANEJO DEL BOTON INICIO Y REINICIAR ----------------------------------------------------
         
-        //MANEJO DE LAS IMAGENES ---------------------------
-        $('.dulces').draggable( {
-            containment: '.panel-tablero',
-            cursor: 'move'
-           
-        } );
-        $(".dulces").droppable({
-           accept: ".dulces",
-           drop: function( evento, ui ) {
-               
-                /*$("#21").toggle(2000, function(){
-                    $("#mensaje").show();
-                    $("#mensaje").text("La oveja hace Beeee");
-                }); */
-               
-                dulce_arrastrado = ui.draggable.attr("id");
-                imagen_arrastrada = ui.draggable.attr("src");
-                dulce_contenedor = $(this).attr("id");
-                imagen_contenedor = $(this).attr("src");
-                
-                var coordenadas_A = $(ui.draggable).offset();
-                var coordenadas_C = $(this).offset();
-               
-                var columna_A = dulce_arrastrado[0];
-                var columna_C = dulce_contenedor[0];
-                
-                /*var coordenadas_A_izq = parseInt(coordenadas_A.left);
-                var coordenadas_A_top = parseInt(coordenadas_A.top);
-               
-                var coordenadas_C_izq = parseInt(coordenadas_C.left);
-                var coordenadas_C_top = parseInt(coordenadas_C.top);*/
-               
-                dulce_aux_arrastrado = dulce_arrastrado;
-                dulce_aux_contenedor = dulce_contenedor;
-                
-                
-                if (parseInt(dulce_arrastrado) < parseInt(dulce_contenedor)){
-                    //$('#' + dulce_arrastrado).fadeOut();
-                    //$('#' + dulce_arrastrado).replaceWith($('#' + dulce_aux_contenedor));
-                    $('#' + dulce_arrastrado).detach();
-                    $('<img class="dulces ui-draggable ui-draggable-handle ui-droppable"' + 'id=' + dulce_aux_arrastrado + ' src=' + imagen_contenedor + ' width=82% style="position: relative">').appendTo('.col-' + columna_A + ' .fila_' + dulce_arrastrado);
-                    
-                    $('#' + dulce_contenedor).detach();
-                    $('<img class="dulces ui-draggable ui-draggable-handle ui-droppable"' + 'id=' + dulce_aux_contenedor + ' src=' + imagen_arrastrada + ' width=82% style="position: relative">').appendTo('.col-' + columna_C + ' .fila_' + dulce_contenedor);
-                } else {
-                    //$('#' + dulce_contenedor).fadeOut();
-                    $('#' + dulce_contenedor).replaceWith($('#' + dulce_aux_arrastrado));
-                    $('<img class="dulces ui-draggable ui-draggable-handle ui-droppable"' + 'id=' + dulce_aux_arrastrado + ' src=' + imagen_contenedor + ' width=82% style="position: relative">').appendTo('.col-' + columna_A + ' .fila_' + dulce_arrastrado);
-                }
-                //$('#' + dulce_aux_contenedor).replaceWith($('#' + dulce_aux_arrastrado));
-           }
-        });
-        //FIN DE MANEJO DE IMAGENES ------------------------
+        
     });
 //FIN DEL JUEGO ------------------------------------------------------------------------------------------
     
