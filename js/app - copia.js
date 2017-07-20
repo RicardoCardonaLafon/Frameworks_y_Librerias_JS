@@ -57,10 +57,10 @@ function ordenar_dulces_Columnas(a,b){
 
 
 //PRIMERA BUSQUEDA DE COINCIDENCIAS CUANDO ES CLIC EN EL BOTON INICIAR--------------------------------------
-var Busqueda_Coincidencias = function(){
+var Primera_Busq_Coincidencias = function(){
  
     var puntos = 0;
-    var cantidad_coincidencias = 0;
+    
     
     //ORDENO EL VECTOR POR COLUMNA
     vector_dulces.sort(ordenar_dulces_Columnas);
@@ -83,9 +83,9 @@ var Busqueda_Coincidencias = function(){
                     if (parseInt(vector_dulces[i].Id_Fila - fila_anterior) == 1) {
                         cant = cant + 1; 
                         
-                    } /*else {
+                    } else {
                         alert("Nunca Entra por Aca");
-                    }   */                     
+                    }                        
             } else { 
                 if (vector_dulces[i].Id_Columna != columna_anterior) {
                     //Cambia columna y es el mismo dulce
@@ -171,6 +171,18 @@ var Busqueda_Coincidencias = function(){
             }
         }    
     
+    //Borro las coincidencias y hago efecto
+    puntos = 0;
+    for( var i = 0 ; i < 49 ; i++) {
+        if (vector_dulces[i].Para_Borrar == "S"){
+            $('#' + vector_dulces[i].Id_Tabla).detach();
+            puntos = puntos + 1;
+        }
+    }
+    //Modifico los puntos alcanzados
+    puntos = puntos * 10 + parseInt($('#score-text').text());
+    $('#score-text').text(puntos);
+    
     //BUSCO EN LAS FILAS
     //ORDENO EL VECTOR POR FILA
     
@@ -179,7 +191,7 @@ var Busqueda_Coincidencias = function(){
     imagen_actual_dulce = vector_dulces[0].Id_Imagen;
     fila_anterior = vector_dulces[0].Id_Fila;
     
-    columna_anterior = 8;
+    columna_anterior = 0;
     
     vector_auxiliar = new Array();
     
@@ -187,87 +199,89 @@ var Busqueda_Coincidencias = function(){
     
     cant = 0;
     //BUSQUEDA DE COINCIDENCIAS POR FILAS -----------------------------------------------------------------
-    for( var i = 0 ; i < 49 ; i++){
-            vector_auxiliar.push(i);         
-            if ((vector_dulces[i].Id_Imagen == imagen_actual_dulce) && (vector_dulces[i].Id_Fila == fila_anterior)){
-                //Misma Fila y mismo dulce!!! 
-                    if (Math.abs(parseInt(vector_dulces[i].Id_Columna - columna_anterior)) == 1) {
-                        cant = cant + 1;
+        for( var i = 0 ; i < 49 ; i++){
+            if (vector_dulces[i].Para_Borrar = "N") {
+                vector_auxiliar.push(i);         
+                if ((vector_dulces[i].Id_Imagen == imagen_actual_dulce) && (vector_dulces[i].Id_Fila == fila_anterior)){
+                    //Misma Fila y mismo dulce!!! 
+                        if (parseInt(vector_dulces[i].Id_Columna - columna_anterior) == 1) {
+                                cant = cant + 1;
 
+                        } else {
+                            alert("Por favor hablé con Ismael Sayas y no encontramos el error que se da en Chrome en la ordenación del vector, dejé nota en la entrega del trabajo. Solo funciona en firefox desarrolladores. Gracias!");
+                        }                        
+                } else { 
+                    if (vector_dulces[i].Id_Fila != fila_anterior) {
+                        //Cambia Fila y es el mismo dulce
+                        if (cant >= 3){
+                            //Cambie de fila y Hay aciertos EN LA FILA ANTERIOR
+                            //Marco para borrar las coincidencias
+                            //Coloco en vector de ducles S para luego borrar
+                            i_aux = vector_auxiliar[vector_auxiliar.length-1];
+                            vector_auxiliar.pop();  
+                            var z = 0;
+                            while (z < vector_auxiliar.length) {
+                                vector_dulces[vector_auxiliar[z]].Para_Borrar = "S";
+                                z = z + 1;   
+                            }
+                            //-----------------------------------------------------
+                            vector_auxiliar.length = 0;
+                            cant = 1;
+                            imagen_actual_dulce = vector_dulces[i].Id_Imagen;
+                            fila_anterior = vector_dulces[i].Id_Fila;
+
+                        } else {
+                            //Cambie de fila y NO HAY ACIERTOS EN LA FILA ANTERIOR
+                            i_aux = vector_auxiliar[vector_auxiliar.length-1];
+                            vector_auxiliar.length = 0;
+                            vector_auxiliar.push(i_aux);
+                            cant = 1;
+                            imagen_actual_dulce = vector_dulces[i].Id_Imagen;
+                            fila_anterior = vector_dulces[i].Id_Fila;
+
+                        }    
                     } else {
-                        alert("Solo funciona en firefox desarrolladores. Gracias!");
-                    }                        
-            } else { 
-                if (vector_dulces[i].Id_Fila != fila_anterior) {
-                    //Cambia Fila y es el mismo dulce
-                    if (cant >= 3){
-                        //Cambie de fila y Hay aciertos EN LA FILA ANTERIOR
-                        //Marco para borrar las coincidencias
-                        //Coloco en vector de ducles S para luego borrar
-                        i_aux = vector_auxiliar[vector_auxiliar.length-1];
-                        vector_auxiliar.pop();  
-                        var z = 0;
-                        while (z < vector_auxiliar.length) {
-                            vector_dulces[vector_auxiliar[z]].Para_Borrar = "S";
-                            z = z + 1;   
-                        }
-                        //-----------------------------------------------------
-                        vector_auxiliar.length = 0;
-                        cant = 1;
-                        imagen_actual_dulce = vector_dulces[i].Id_Imagen;
-                        fila_anterior = vector_dulces[i].Id_Fila;
+                        //Misma fila y cambia el dulce dulce
+                        if (cant >= 3){
+                            //Misma fila y cambia el dulce y HAY aciertos EN LA MISMA FILA
+                            //Marco para borrar las coincidencias
+                            //Coloco en vector de ducles S para luego borrar
+                            i_aux = vector_auxiliar[vector_auxiliar.length-1];
+                            vector_auxiliar.pop();  
+                            var z = 0;
+                            while (z < vector_auxiliar.length) {
+                               vector_dulces[vector_auxiliar[z]].Para_Borrar = "S";
+                                z = z + 1;   
+                            }
+                            //------------------------------------------------------
+                            vector_auxiliar.length = 0;
+                            vector_auxiliar.push(i_aux); 
+                            cant = 1;
+                            imagen_actual_dulce = vector_dulces[i].Id_Imagen;
+                            fila_anterior = vector_dulces[i].Id_Fila;
 
-                    } else {
-                        //Cambie de fila y NO HAY ACIERTOS EN LA FILA ANTERIOR
-                        i_aux = vector_auxiliar[vector_auxiliar.length-1];
-                        vector_auxiliar.length = 0;
-                        vector_auxiliar.push(i_aux);
-                        cant = 1;
-                        imagen_actual_dulce = vector_dulces[i].Id_Imagen;
-                        fila_anterior = vector_dulces[i].Id_Fila;
-
-                    }    
-                } else {
-                    //Misma fila y cambia el dulce dulce
-                    if (cant >= 3){
-                        //Misma fila y cambia el dulce y HAY aciertos EN LA MISMA FILA
-                        //Marco para borrar las coincidencias
-                        //Coloco en vector de ducles S para luego borrar
-                        i_aux = vector_auxiliar[vector_auxiliar.length-1];
-                        vector_auxiliar.pop();  
-                        var z = 0;
-                        while (z < vector_auxiliar.length) {
-                           vector_dulces[vector_auxiliar[z]].Para_Borrar = "S";
-                            z = z + 1;   
-                        }
-                        //------------------------------------------------------
-                        vector_auxiliar.length = 0;
-                        vector_auxiliar.push(i_aux); 
-                        cant = 1;
-                        imagen_actual_dulce = vector_dulces[i].Id_Imagen;
-                        fila_anterior = vector_dulces[i].Id_Fila;
-
-                    } else {
-                        //Misma columna y cambia el dulce y NO HAY aciertos EN LA MISMA COLUMNA 
-                        i_aux = vector_auxiliar[vector_auxiliar.length-1];
-                        vector_auxiliar.length = 0;
-                        vector_auxiliar.push(i_aux);
-                        cant = 1;
-                        imagen_actual_dulce = vector_dulces[i].Id_Imagen;
-                        fila_anterior = vector_dulces[i].Id_Fila;
+                        } else {
+                            //Misma columna y cambia el dulce y NO HAY aciertos EN LA MISMA COLUMNA 
+                            i_aux = vector_auxiliar[vector_auxiliar.length-1];
+                            vector_auxiliar.length = 0;
+                            vector_auxiliar.push(i_aux);
+                            cant = 1;
+                            imagen_actual_dulce = vector_dulces[i].Id_Imagen;
+                            fila_anterior = vector_dulces[i].Id_Fila;
 
 
-                    }    
+                        }    
 
-                }
+                    }
 
-            } 
-
-
-        //Paso a una nueva columna
-        columna_anterior = parseInt(vector_dulces[i].Id_Columna);
-
-    //FIN DE TRATAMIENTO DE LA COLUMNA
+                } 
+            }
+                
+        
+            //Paso a una nueva fila
+            columna_anterior = parseInt(vector_dulces[i].Id_Columna);
+        
+        //FIN DE TRATAMIENTO DE LA COLUMNA
         
         
     } //Fin del For recorrido de array dulces
@@ -281,46 +295,18 @@ var Busqueda_Coincidencias = function(){
             }
         }    
     
-    //Borro las coincidencias y hago efecto--------------------------------------------------------------
+    //Borro las coincidencias y hago efecto
     puntos = 0;
-    var veces = 0;
-    var var_tiempo = "";
     for( var i = 0 ; i < 49 ; i++) {
         if (vector_dulces[i].Para_Borrar == "S"){
-            function Efecto_Dulce(){
-                $('#' + vector_dulces[i].Id_Tabla).hide("fold",2000)
-                //toggle("bounce",2000)
-                veces = veces + 1;
-                if (veces >=3){
-                    clearTimeout(var_tiempo);
-                } else {
-                var_tiempo = setTimeout(Efecto_Dulce(),500)
-                }
-            }
-            
-            Efecto_Dulce();    
-            
-            
-            $('#' + vector_dulces[i].Id_Tabla).detach();  
+            $('#' + vector_dulces[i].Id_Tabla).detach();
             puntos = puntos + 1;
         }
     }
     //Modifico los puntos alcanzados
     puntos = puntos * 10 + parseInt($('#score-text').text());
     $('#score-text').text(puntos);
-    //-----------------------------------------------------------------------------------------------------
-    for( var i = 0 ; i < 49 ; i++) {
-        if (vector_dulces[i].Para_Borrar == "S"){
-            var numero = Math.floor((Math.random() * 4) + 1); 
-            var columna = vector_dulces[i].Id_Columna;        
-            var fila =vector_dulces[i].Id_Fila;
-            var id_de_celda = vector_dulces[i].Id_Tabla;
-            $('<img class="dulces"' + 'id=' + id_de_celda + ' src=image/' + numero + '.png'+ ' width=82%>').appendTo('.col-' + columna + ' .fila_' + columna + fila);
-            vector_dulces[i].Para_Borrar = "N";
-            cantidad_coincidencias =  cantidad_coincidencias + 1;
-        }
-    }
-    return cantidad_coincidencias;
+    
 }
 //FIN DE LA PRIMERA BUSQUEDA DE COINCIDENCIAS CUANDO ES CLIC EN EL BOTON INICIAR----------------------------
 
@@ -443,25 +429,7 @@ $('.filas').mousedown(function(){
             
             movimientos = movimientos +1;
             $('#movimientos-text').text(movimientos);
-            
-            vector_dulces.sort(ordenar_dulces_Columnas);
            
-            for(var i = 0 ; i < 49 ; i++){
-                
-                if (vector_dulces[i].Id_Tabla == dulce_aux_arrastrado){
-                    
-                    vector_dulces[i].Id_Imagen = imagen_contenedor;
-                    vector_dulces[i].Para_Borrar = "N";
-                }
-                
-                if (vector_dulces[i].Id_Tabla == dulce_aux_contenedor) {
-                
-                    vector_dulces[i].Id_Imagen = imagen_arrastrada;
-                    vector_dulces[i].Para_Borrar = "N";
-                }    
-                    
-            }
-            Busqueda_Coincidencias();
             
             
        }
@@ -529,13 +497,8 @@ $('.filas').mousedown(function(){
                     cambiar_reloj();
             }, 1000);
             
-            var titulo_juego = setInterval(function(){
-                    cambiar_reloj();
-            }, 1000);
-            
             cargar_vector();
-            Busqueda_Coincidencias();
-
+            Primera_Busq_Coincidencias();
             
             //FIN RELOJ
             
