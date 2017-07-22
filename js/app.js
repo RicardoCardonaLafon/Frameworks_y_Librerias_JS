@@ -20,6 +20,9 @@ var movimientos = 0;
 var aciertos = 0;
 var puntos = 0;
 
+var z = 0;
+var x = 0;
+
 var fila_arrastrable = "";
 var orden_arrastrable = 0;
 var fila_contenedor = "";
@@ -71,7 +74,7 @@ function Busqueda_Coincidencias() {
     
     vector_auxiliar.push(i);         
     
-    for (let i = 1 ; i < 49 ; i++) {     
+    for (var i = 1 ; i < 49 ; i++) {     
             
             if (vector_dulces[i].Id_Columna == columna_anterior) {
                 //El Dulce alctual y el anterior están en la misma columna 
@@ -80,9 +83,21 @@ function Busqueda_Coincidencias() {
                     vector_auxiliar.push(i); 
                 } else {
                     if (cant >=3){                
-                        var z = 0;
+                        z = 0;
                         while (z < vector_auxiliar.length) {
-                            vector_dulces[vector_auxiliar[z]].Para_Borrar = "S";
+                            if (typeof x === 'undefined') {
+                                z = 0;   
+                            }
+                            if (typeof x === 'undefined') {
+                                x = parseInt(vector_auxiliar[z]);    
+                            } else { 
+                                x = parseInt(vector_auxiliar[z]);
+                            }
+                            if (!(isNaN(x))) {
+                                if (x < 49 ){
+                                    vector_dulces[x].Para_Borrar = "S";
+                                }    
+                            }    
                             z = z + 1;   
                         }
                     } 
@@ -97,9 +112,21 @@ function Busqueda_Coincidencias() {
             } 
             if (vector_dulces[i].Id_Columna != columna_anterior) {
                if (cant >=3){                
-                    var z = 0;
+                    z = 0;
                     while (z < vector_auxiliar.length) {
-                        vector_dulces[vector_auxiliar[z]].Para_Borrar = "S";
+                        if (typeof x === 'undefined') {
+                            z = 0;   
+                        }
+                        if (typeof x === 'undefined') {
+                            x = parseInt(vector_auxiliar[z]);    
+                        } else { 
+                            x = parseInt(vector_auxiliar[z]);
+                        }
+                        if (!(isNaN(x))) {
+                            if (x < 49 ){
+                                vector_dulces[x].Para_Borrar = "S";
+                            }    
+                        }
                         z = z + 1;   
                     }
                 } 
@@ -118,9 +145,21 @@ function Busqueda_Coincidencias() {
     } //Fin del For recorrido de array dulces
     //Verifico si hay aciertos en la última búsqueda...
     if (cant >=3){                
-        var z = 0;
+        z = 0;
         while (z < vector_auxiliar.length) {
-            vector_dulces[vector_auxiliar[z]].Para_Borrar = "S";
+            if (typeof x === 'undefined') {
+                z = 0;   
+            }
+            if (typeof x === 'undefined') {
+                x = parseInt(vector_auxiliar[z]);    
+            } else { 
+                x = parseInt(vector_auxiliar[z]);
+            }
+            if (!(isNaN(x))) {
+                if (x < 49 ){
+                    vector_dulces[x].Para_Borrar = "S";
+                }    
+            }
             z = z + 1;   
         }
     } 
@@ -143,7 +182,7 @@ function Busqueda_Coincidencias() {
     
     vector_auxiliar.push(i);         
     
-    for (let i = 1 ; i < 49 ; i++) {     
+    for (var i = 1 ; i < 49 ; i++) {     
             
             if (vector_dulces[i].Id_Fila == fila_anterior) {
                 //El Dulce actual y el anterior están en la misma columna 
@@ -152,9 +191,21 @@ function Busqueda_Coincidencias() {
                     vector_auxiliar.push(i); 
                 } else {
                     if (cant >=3){                
-                        var z = 0;
+                        z = 0;
                         while (z < vector_auxiliar.length) {
-                            vector_dulces[vector_auxiliar[z]].Para_Borrar = "S";
+                            if (typeof x === 'undefined') {
+                                z = 0;   
+                            }
+                            if (typeof x === 'undefined') {
+                                x = parseInt(vector_auxiliar[z]);    
+                            } else { 
+                                x = parseInt(vector_auxiliar[z]);
+                            }
+                            if (!(isNaN(x))) {
+                                if (x < 49 ){
+                                    vector_dulces[x].Para_Borrar = "S";
+                                }    
+                            }
                             z = z + 1;   
                         }
                     } 
@@ -169,9 +220,22 @@ function Busqueda_Coincidencias() {
             } 
             if (vector_dulces[i].Id_Fila != fila_anterior) {
                if (cant >=3){                
-                    var z = 0;
+                    z = 0;
                     while (z < vector_auxiliar.length) {
-                        vector_dulces[vector_auxiliar[z]].Para_Borrar = "S";
+                        if (typeof x === 'undefined') {
+                            z = 0;   
+                        }
+                        if (typeof x === 'undefined') {
+                            x = parseInt(vector_auxiliar[z]);    
+                        } else { 
+                            x = parseInt(vector_auxiliar[z]);
+                        }
+                        if (!(isNaN(x))) {
+                            if (x < 49 ){
+                                vector_dulces[x].Para_Borrar = "S";
+                            }    
+                            
+                        }
                         z = z + 1;   
                     }
                 } 
@@ -190,9 +254,21 @@ function Busqueda_Coincidencias() {
     } //Fin del For recorrido de array dulces
     //Verifico si hay aciertos en la última búsqueda...
     if (cant >=3){                
-        var z = 0;
+        z = 0;
         while (z < vector_auxiliar.length) {
-            vector_dulces[vector_auxiliar[z]].Para_Borrar = "S";
+            if (typeof x === 'undefined') {
+                z = 0;   
+            }
+            if (typeof x === 'undefined') {
+                x = parseInt(vector_auxiliar[z]);    
+            } else { 
+                x = parseInt(vector_auxiliar[z]);
+            }
+            if (!(isNaN(x))) {
+                if (x < 49 ){
+                    vector_dulces[x].Para_Borrar = "S";
+                }    
+            }
             z = z + 1;   
         }
     } 
@@ -201,42 +277,63 @@ function Busqueda_Coincidencias() {
     
     //Coincidencia en última posición
     if (cant >= 3) {
-        var z = 0;
+        z = 0;
         while (z < vector_auxiliar.length) {
-           vector_dulces[vector_auxiliar[z]].Para_Borrar = "S";
+            if (typeof x === 'undefined') {
+                z = 0;   
+            }
+            if (typeof x === 'undefined') {
+                x = parseInt(vector_auxiliar[z]);    
+            } else { 
+                x = parseInt(vector_auxiliar[z]);
+            }
+            if (!(isNaN(x))) {
+               if (x < 49 ){
+                    vector_dulces[x].Para_Borrar = "S";
+                }    
+            }
             z = z + 1;   
         }
     }    
-    
+    /*var dulce_efecto = "";
+    function Efecto_Dulce(){
+            if (vector_dulces[i].Para_Borrar == "S"){
+                if ($('#' + vector_dulces[i].Id_Tabla).css("width") == "100%"){
+                    $('#' + vector_dulces[i].Id_Tabla).css("width", "50%");
+                } else {
+                    $('#' + vector_dulces[i].Id_Tabla).css("widthr", "100%");
+                }   
+                veces = veces + 1;
+                if (veces >=5){
+                    clearInterval(var_tiempo);
+                } else {
+                //var_tiempo = setInterval(Efecto_Dulce(),500)
+                }
+            }        
+        }
+    for(var i = 0 ; i < 49 ; i++) {
+        
+            if (vector_dulces[i].Para_Borrar == "S"){
+                dulce_efecto = $('#' + vector_dulces[i].Id_Tabla);
+                var_tiempo = setInterval(Efecto_Dulce(),1000)
+            }        
+        
+    }
+    var var_tiempo = setInterval(function(){
+        Efecto_Dulce();
+    }, 1000);*/
     
     //Borro las coincidencias y hago efecto--------------------------------------------------------------
     puntos = 0;
     var veces = 0;
     var var_tiempo = "";
-    for( var i = 0 ; i < 49 ; i++) {
+    for (var i = 0 ; i < 49 ; i++) {
         if (vector_dulces[i].Para_Borrar == "S"){
             var numero = Math.floor((Math.random() * 4) + 1); 
             var columna = vector_dulces[i].Id_Tabla.substr(0,1);        
             var fila = vector_dulces[i].Id_Tabla.substr(1,1);
             var id_de_celda = vector_dulces[i].Id_Tabla;
             
-            function Efecto_Dulce(){
-                if ($('#' + vector_dulces[i].Id_Tabla).parent().css("background-color") == "rgb(255, 255, 255)"){
-                    $('#' + vector_dulces[i].Id_Tabla).parent().css("background-color", "#DCFF0E");
-                } else {
-                    $('#' + vector_dulces[i].Id_Tabla).parent().css("background-color", "#FFFFFF");
-                }   
-                veces = veces + 1;
-                if (veces >=5){
-                    clearInterval(var_tiempo);
-                } else {
-                var_tiempo = setTimeout(Efecto_Dulce(),500)
-                }
-            }
-            
-            var var_tiempo = setInterval(function(){
-                Efecto_Dulce();
-            }, 1000);
     
             $('#' + vector_dulces[i].Id_Tabla).attr('style', 'display: none');
             $('#' + columna + fila + numero).attr('style', 'display: inline; position: relative');
@@ -265,6 +362,39 @@ function Busqueda_Coincidencias() {
 
 $( document ).ready(function() {
 
+//CAMBIA COLOR DEL TITULO
+function cambiar_color(){
+    if ($('h1').css("color") == "rgb(255, 255, 255)"){
+        $('h1').css("color", "#DCFF0E");
+    } else {
+        $('h1').css("color", "#FFFFFF");
+    }   
+}
+
+var titulo_juego = setInterval(function(){
+        cambiar_color();
+}, 1000);
+//FIN CAMBIA COLOR DEL TITULO
+/*$("#ejemplo2").change(function(){
+            
+});    
+function pantalla_final(){
+    $('<h3 style="font-family: gameFont; color: #DCFF0E;">Juego Terminado</h3>').appendTo('.main-titulo');
+    $('.panel-score').css({"width": "80%", "display": "flex", "flex-flow" : "column nowrap", "justify-content" : "space-between"}); 
+    $('.panel-tablero').remove();
+    $('.time').remove();
+    
+}
+$('#timer').change(pantalla_final()){
+    
+}    
+var final_juego = setTimeout(function(){
+    if ($('#timer').text() == "00:00"){
+        pantalla_final();    
+    }
+}, 2500);
+    
+*/
 //FILAS --- CONTENEDORAS DE TODAS LAS IMAGENES
 var o = 1;
 for( var i = 0 ; i < 7 ; i++) {
@@ -289,8 +419,8 @@ $('.filas').css('margin-left',5);
 	
 var indice_array = -1;
 //CELDAS ----  CREO TODA LA MATRIZ DE DULCES
-for( let i = 0 ; i < 7 ; i++){
-    for( let j = 0 ; j < 7 ; j++) {
+for( var i = 0 ; i < 7 ; i++){
+    for( var j = 0 ; j < 7 ; j++) {
         var numero = Math.floor((Math.random() * 4) + 1); 
         var i_car = i+1;
         var j_car = j+1;
@@ -368,19 +498,6 @@ for( let i = 0 ; i < 7 ; i++){
 
 vector_dulces.sort(ordenar_dulces_Columnas);    
     
-//CAMBIA COLOR DEL TITULO
-function cambiar_color(){
-    if ($('h1').css("color") == "rgb(255, 255, 255)"){
-        $('h1').css("color", "#DCFF0E");
-    } else {
-        $('h1').css("color", "#FFFFFF");
-    }   
-}
-
-var titulo_juego = setInterval(function(){
-        cambiar_color();
-}, 1000);
-//FIN CAMBIA COLOR DEL TITULO
 
 
     
@@ -393,8 +510,9 @@ $('.filas').mousedown(function(){
     }
     
     $('.dulces').draggable({
-        //containment: '.panel-tablero',
-        //cursor: 'move'
+        containment: '.panel-tablero',
+        cursor: 'move',
+        revert: true
 
     });
     
@@ -408,6 +526,10 @@ $('.filas').mousedown(function(){
 
             var coordenadas_A = $(ui.draggable).offset();
             var coordenadas_C = $(this).offset();
+            
+            var coordenada_L = ui.position.left;
+            var coordenada_T = ui.position.top;
+            
 
             var columna_A = dulce_arrastrado[0];
             var columna_C = dulce_contenedor[0];
@@ -420,7 +542,26 @@ $('.filas').mousedown(function(){
             var dulce_aux_arrastrado = dulce_arrastrado.substr(0,2);
             var dulce_aux_contenedor = dulce_contenedor.substr(0,2);
            
-            
+            if (dulce_arrastrado.substr(0,1) != dulce_contenedor.substr(0,1)) {
+                //Columna Diferente
+                if (dulce_arrastrado.substr(1,1) != dulce_contenedor.substr(1,1)) {
+                    //Fila Diferente
+                    return;
+                } else {
+                    //Columna Diferente e Igual fila
+                    if (Math.abs(dulce_arrastrado.substr(0,1) - dulce_contenedor.substr(0,1)) != 1){
+                        //Pero separados mas de un casillero
+                        return;
+                    }    
+                }
+            } else { 
+                //Misma Columna y distinta fila
+                if (Math.abs(dulce_arrastrado.substr(1,1) - dulce_contenedor.substr(1,1)) != 1){
+                    //Pero separados mas de un casillero
+                    return;
+                } 
+                
+            }
             
             $('#' + dulce_arrastrado).attr('style', 'display: none');
             $('#' + dulce_aux_arrastrado + nro_img_contenedor).attr('style', 'display: inline; position: relative');
@@ -431,7 +572,7 @@ $('.filas').mousedown(function(){
             movimientos = movimientos +1;
             $('#movimientos-text').text(movimientos);
 
-            for(let i = 0 ; i < 49 ; i++){
+            for(var i = 0 ; i < 49 ; i++){
 
                 if (vector_dulces[i].Id_Tabla == dulce_arrastrado){
                     vector_dulces[i].Id_Tabla = dulce_aux_arrastrado + nro_img_contenedor;
@@ -466,11 +607,12 @@ $(".btn-reinicio").click(function(){
         var segundos = 59;
 
         $('.btn-reinicio').text("Reiniciar")
+        
         $('.dulces').draggable( {
             containment: '.panel-tablero',
             cursor: 'move'
 
-        });
+        }); 
 
         //RELOJ
         function cambiar_reloj(){
@@ -502,25 +644,25 @@ $(".btn-reinicio").click(function(){
                         minutos_txt = "00"; 
                     } else {
                         $('#timer').text("00:00");
-                        clearInterval(titulo_juego);
+                        clearInterval(contenido_reloj);
                         //Fin del Juego
+                        if ($('#timer').text("00:00")){
+                            $('<h3 style="font-family: gameFont; color: #DCFF0E;">Juego Terminado</h3>').appendTo('.main-titulo');
+                            $('.panel-score').css({"width": "80%", "display": "flex", "flex-flow" : "column nowrap", "justify-content" : "space-between"}); 
+                            $('.panel-tablero').remove();
+                            $('.time').remove();
+                        }
+                        
                     }
                 }
             }   
         }
-        var titulo_juego = setInterval(function(){
-                cambiar_reloj();
-        }, 1000);
-
-        var titulo_juego = setInterval(function(){
+        
+        var contenido_reloj = setInterval(function(){
                 cambiar_reloj();
         }, 1000);
         //FIN RELOJ
-
         
-
-
-
 
     } else {
         //REINICIAR EL JUEGO Y CARGAR LA PAGINA NUEVAMENTE
